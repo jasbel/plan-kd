@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const quantityInput = document.getElementById('quantity');
   const sizeSelect = document.getElementById('size');
+  const formatSelect = document.getElementById('format');
   const badgeCheckbox = document.getElementById('badge');
   const categoriesContainer = document.getElementById('categories');
   const generateBtn = document.getElementById('generateBtn');
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const status = document.getElementById('status');
 
   let generatedImages = [];
+  let lastSize = parseInt(sizeSelect.value, 10);
 
   function getSelectedCategories() {
     return Array.from(categoriesContainer.querySelectorAll('input[type="checkbox"]:checked')).map(c => c.value);
@@ -38,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const size = parseInt(sizeSelect.value, 10);
     const withBadge = badgeCheckbox.checked;
+    lastSize = size;
 
     generatedImages = [];
     grid.innerHTML = '';
@@ -67,36 +70,91 @@ document.addEventListener('DOMContentLoaded', () => {
 
   downloadBtn.addEventListener('click', async () => {
     if (generatedImages.length === 0) return;
-    status.textContent = 'Comprimiendo imágenes...';
 
-    const zip = new JSZip();
-    const folder = zip.folder('productos-svg');
-    const usedNames = new Map();
+    const format = formatSelect.value;
+    const folderName = `productos-${format}`;
 
-    generatedImages.forEach(({ fileName, svg }) => {
-      let finalName = fileName;
-      if (usedNames.has(fileName)) {
-        const count = usedNames.get(fileName) + 1;
-        usedNames.set(fileName, count);
-        finalName = fileName.replace('.svg', `-${count}.svg`);
-      } else {
-        usedNames.set(fileName, 0);
+    try {
+      const zip = new JSZip();
+      const folder = zip.folder(folderName);
+      const usedNames = new Map();
+
+      for (let i = 0; i < generatedImages.length; i++) {
+        const { fileName, svg } = generatedImages[i];
+        status.textContent = `Procesando imagen ${i + 1} de ${generatedImages.length}...`;
+
+        let finalName = fileName.replace(/\.svg$/, `.${format}`);
+        if (usedNames.has(finalName)) {
+          const count = usedNames.get(finalName) + 1;
+          usedNames.set(finalName, count);
+          finalName = finalName.replace(`.${format}`, `-${count}.${format}`);
+        } else {
+          usedNames.set(finalName, 0);
+        }
+
+        if (format === 'svg') {
+          folder.file(finalName, svg);
+        } else {
+          const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
+          const imageBlob = await svgToImageBlob(svg, lastSize, mimeType);
+          folder.file(finalName, imageBlob);
+        }
       }
-      folder.file(finalName, svg);
-    });
 
-    const blob = await zip.generateAsync({ type: 'blob' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `productos-svg-${Date.now()}.zip`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+      status.textContent = 'Comprimiendo imágenes...';
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `productos-${format}-${Date.now()}.zip`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
 
-    status.textContent = `ZIP descargado con ${generatedImages.length} imagen(es).`;
+      status.textContent = `ZIP descargado con ${generatedImages.length} imagen(es) en formato ${format.toUpperCase()}.`;
+    } catch (err) {
+      status.textContent = `Error al generar el ZIP: ${err.message}`;
+    }
   });
+
+  function svgToImageBlob(svgString, size, mimeType) {
+    return new Promise((resolve, reject) => {
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      const svgUrl = URL.createObjectURL(svgBlob);
+      const img = new Image();
+
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+
+        if (mimeType === 'image/jpeg') {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, size, size);
+        }
+
+        ctx.drawImage(img, 0, 0, size, size);
+        URL.revokeObjectURL(svgUrl);
+
+        canvas.toBlob((blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error('No se pudo convertir la imagen.'));
+          }
+        }, mimeType, 0.92);
+      };
+
+      img.onerror = () => {
+        URL.revokeObjectURL(svgUrl);
+        reject(new Error('No se pudo cargar el SVG para convertirlo.'));
+      };
+
+      img.src = svgUrl;
+    });
+  }
 
   function slugify(text) {
     return text
