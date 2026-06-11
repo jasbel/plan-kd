@@ -9,8 +9,8 @@ const PRODUCT_CATEGORIES = {
       ["#1b1b2f", "#e94560"],
       ["#283655", "#4ecca3"]
     ],
-    names: ["Smartphone", "Auriculares", "Tablet", "Smartwatch", "Cámara", "Altavoz BT", "Power Bank", "Drone Mini"],
-    icons: ["phone", "headphones", "camera", "watch", "speaker"]
+    names: ["Smartphone", "Auriculares", "Tablet", "Smartwatch", "Cámara", "Altavoz BT", "Power Bank", "Drone Mini", "Televisor 4K"],
+    icons: ["phone", "headphones", "camera", "watch", "speaker", "tv"]
   },
   moda: {
     label: "Ropa y Moda",
@@ -20,8 +20,8 @@ const PRODUCT_CATEGORIES = {
       ["#fdebd3", "#2e86ab"],
       ["#fceade", "#e76f51"]
     ],
-    names: ["Camiseta", "Zapatillas", "Bolso", "Chaqueta", "Vestido", "Gorra", "Pantalón", "Bufanda"],
-    icons: ["shirt", "shoe", "bag", "hat"]
+    names: ["Camiseta", "Zapatillas", "Bolso", "Chaqueta", "Vestido", "Gorra", "Pantalón", "Bufanda", "Lentes de Sol"],
+    icons: ["shirt", "shoe", "bag", "hat", "dress", "sunglasses"]
   },
   hogar: {
     label: "Hogar y Muebles",
@@ -32,7 +32,7 @@ const PRODUCT_CATEGORIES = {
       ["#fbf3e9", "#a26769"]
     ],
     names: ["Sofá", "Lámpara", "Silla", "Mesa", "Estante", "Espejo", "Maceta", "Alfombra"],
-    icons: ["sofa", "lamp", "chair", "table", "plant"]
+    icons: ["sofa", "lamp", "chair", "table", "plant", "mirror"]
   },
   belleza: {
     label: "Belleza y Cosméticos",
@@ -53,8 +53,8 @@ const PRODUCT_CATEGORIES = {
       ["#fffbe9", "#2a9d8f"],
       ["#fdf6ec", "#e9c46a"]
     ],
-    names: ["Café Premium", "Botella de Agua", "Snack Saludable", "Miel Orgánica", "Té Artesanal", "Chocolate", "Aceite de Oliva", "Jugo Natural"],
-    icons: ["bottle", "cup", "fruit", "box"]
+    names: ["Café Premium", "Botella de Agua", "Snack Saludable", "Miel Orgánica", "Té Artesanal", "Chocolate", "Aceite de Oliva", "Jugo Natural", "Pizza Artesanal"],
+    icons: ["bottle", "cup", "fruit", "box", "pizza"]
   },
   deportes: {
     label: "Deportes y Aire Libre",
@@ -108,8 +108,30 @@ const PRODUCT_CATEGORIES = {
       ["#edf2f4", "#118ab2"],
       ["#f8f9fa", "#2b2d42"]
     ],
-    names: ["Laptop", "Monitor", "Teclado Mecánico", "Mouse Inalámbrico", "Impresora", "Webcam", "Disco Externo", "Router WiFi"],
-    icons: ["laptop", "monitor", "keyboard", "mouse", "printer"]
+    names: ["Laptop", "Monitor", "Teclado Mecánico", "Mouse Inalámbrico", "Impresora", "Webcam", "Disco Externo", "Router WiFi", "Tablet Gráfica"],
+    icons: ["laptop", "monitor", "keyboard", "mouse", "printer", "tablet"]
+  },
+  salud: {
+    label: "Salud y Bienestar",
+    palettes: [
+      ["#eefbf4", "#2a9d8f"],
+      ["#f0f7ff", "#3a86ff"],
+      ["#fef6f6", "#e63946"],
+      ["#f4fbf7", "#43aa8b"]
+    ],
+    names: ["Vitaminas", "Termómetro Digital", "Kit de Primeros Auxilios", "Mascarilla Facial", "Aceite Esencial", "Báscula Digital", "Tensiómetro", "Suplemento Proteico"],
+    icons: ["pill", "stethoscope", "thermometer", "bandage"]
+  },
+  automotriz: {
+    label: "Automotriz y Herramientas",
+    palettes: [
+      ["#f4f4f4", "#3d348b"],
+      ["#fff7e8", "#e85d04"],
+      ["#f1f5f9", "#1d3557"],
+      ["#fef9ef", "#6c757d"]
+    ],
+    names: ["Llanta Todo Terreno", "Kit de Herramientas", "Aceite de Motor", "Casco de Seguridad", "Cargador para Auto", "Llave de Cruz", "Cera para Auto", "Soporte para Celular"],
+    icons: ["tire", "toolbox", "wrench", "helmet"]
   }
 };
 
@@ -326,7 +348,85 @@ const ICONS = {
   printer: (c) => `
     <rect x="120" y="160" width="160" height="80" rx="10" fill="${c}" />
     <rect x="145" y="120" width="110" height="50" rx="6" fill="${c}" opacity="0.8"/>
-    <rect x="150" y="240" width="100" height="40" fill="#ffffff" opacity="0.85" stroke="${c}" stroke-width="4"/>`
+    <rect x="150" y="240" width="100" height="40" fill="#ffffff" opacity="0.85" stroke="${c}" stroke-width="4"/>`,
+
+  tv: (c) => `
+    <rect x="90" y="110" width="220" height="140" rx="12" fill="${c}" />
+    <rect x="105" y="125" width="190" height="110" fill="#ffffff" opacity="0.85"/>
+    <rect x="180" y="250" width="40" height="20" fill="${c}" />
+    <rect x="150" y="270" width="100" height="12" rx="6" fill="${c}" />`,
+
+  tablet: (c) => `
+    <rect x="135" y="90" width="130" height="220" rx="16" fill="${c}" />
+    <rect x="148" y="112" width="104" height="176" rx="4" fill="#ffffff" opacity="0.85"/>
+    <circle cx="200" cy="296" r="6" fill="#ffffff" opacity="0.9"/>`,
+
+  dress: (c) => `
+    <path d="M170 100 q30 -20 60 0 l10 40 l-15 15 l5 145 h-100 l5 -145 l-15 -15 Z" fill="${c}" />
+    <circle cx="200" cy="105" r="14" fill="${c}" opacity="0.6"/>`,
+
+  sunglasses: (c) => `
+    <circle cx="155" cy="200" r="45" fill="none" stroke="${c}" stroke-width="14" />
+    <circle cx="245" cy="200" r="45" fill="none" stroke="${c}" stroke-width="14" />
+    <path d="M198 195 q2 -10 4 0" stroke="${c}" stroke-width="14" fill="none"/>
+    <path d="M110 195 q-25 -15 -35 0 M290 195 q25 -15 35 0" stroke="${c}" stroke-width="10" fill="none" stroke-linecap="round"/>`,
+
+  mirror: (c) => `
+    <ellipse cx="200" cy="170" rx="65" ry="85" fill="none" stroke="${c}" stroke-width="14" />
+    <rect x="190" y="250" width="20" height="60" fill="${c}" />
+    <rect x="160" y="305" width="80" height="12" rx="6" fill="${c}" />`,
+
+  pizza: (c) => `
+    <path d="M200 110 L290 290 L110 290 Z" fill="${c}" />
+    <circle cx="180" cy="190" r="10" fill="#ffffff" opacity="0.85"/>
+    <circle cx="220" cy="230" r="10" fill="#ffffff" opacity="0.85"/>
+    <circle cx="195" cy="250" r="8" fill="#ffffff" opacity="0.85"/>`,
+
+  pill: (c) => `
+    <rect x="120" y="180" width="160" height="60" rx="30" fill="${c}" transform="rotate(-30 200 210)" />
+    <rect x="120" y="180" width="80" height="60" rx="30" fill="#ffffff" opacity="0.85" transform="rotate(-30 200 210)" />`,
+
+  stethoscope: (c) => `
+    <path d="M150 110 v60 a50 50 0 0 0 100 0 v-60" fill="none" stroke="${c}" stroke-width="12" stroke-linecap="round"/>
+    <path d="M200 220 v40" stroke="${c}" stroke-width="12" fill="none"/>
+    <circle cx="200" cy="275" r="28" fill="${c}" />
+    <circle cx="150" cy="105" r="10" fill="${c}" />
+    <circle cx="250" cy="105" r="10" fill="${c}" />`,
+
+  thermometer: (c) => `
+    <rect x="188" y="90" width="24" height="160" rx="12" fill="${c}" />
+    <circle cx="200" cy="265" r="35" fill="${c}" />
+    <rect x="196" y="110" width="8" height="120" fill="#ffffff" opacity="0.8"/>
+    <circle cx="200" cy="265" r="14" fill="#ffffff" opacity="0.8"/>`,
+
+  bandage: (c) => `
+    <rect x="110" y="170" width="180" height="60" rx="28" fill="${c}" transform="rotate(-20 200 200)" />
+    <circle cx="175" cy="178" r="8" fill="#ffffff" opacity="0.8" transform="rotate(-20 200 200)"/>
+    <circle cx="225" cy="222" r="8" fill="#ffffff" opacity="0.8" transform="rotate(-20 200 200)"/>`,
+
+  tire: (c) => `
+    <circle cx="200" cy="200" r="95" fill="${c}" />
+    <circle cx="200" cy="200" r="50" fill="#ffffff" opacity="0.85" />
+    <circle cx="200" cy="200" r="18" fill="${c}" />
+    ${Array.from({length: 8}).map((_, i) => {
+      const angle = (i * Math.PI) / 4;
+      const x = 200 + Math.cos(angle) * 70;
+      const y = 200 + Math.sin(angle) * 70;
+      return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" fill="${c}" />`;
+    }).join('')}`,
+
+  toolbox: (c) => `
+    <rect x="110" y="170" width="180" height="110" rx="10" fill="${c}" />
+    <path d="M160 170 v-30 a10 10 0 0 1 10 -10 h60 a10 10 0 0 1 10 10 v30" fill="none" stroke="${c}" stroke-width="12"/>
+    <rect x="105" y="210" width="190" height="24" fill="#ffffff" opacity="0.8"/>`,
+
+  wrench: (c) => `
+    <path d="M250 90 a35 35 0 1 0 30 30 L185 215 a25 25 0 1 0 -30 30 L260 140 Z" fill="${c}" />`,
+
+  helmet: (c) => `
+    <path d="M120 220 a80 70 0 0 1 160 0 Z" fill="${c}" />
+    <rect x="110" y="215" width="180" height="22" rx="10" fill="${c}" opacity="0.8"/>
+    <rect x="185" y="150" width="30" height="50" rx="8" fill="#ffffff" opacity="0.85"/>`
 };
 
 function pick(arr) {
@@ -349,9 +449,11 @@ function generateProductSVG(categoryKey, size, withBadge) {
   const category = PRODUCT_CATEGORIES[categoryKey];
   const [bg, accent] = pick(category.palettes);
   const iconKey = pick(category.icons);
-  const iconMarkup = ICONS[iconKey](accent);
   const name = pick(category.names);
   const sku = `SKU-${Math.floor(Math.random() * 90000 + 10000)}`;
+  const uid = Math.random().toString(36).slice(2, 9);
+
+  const iconMarkup = ICONS[iconKey](`url(#iconGrad-${uid})`);
 
   const badgeMarkup = withBadge ? `
     <g transform="translate(290, 30)">
@@ -361,13 +463,25 @@ function generateProductSVG(categoryKey, size, withBadge) {
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="${size}" height="${size}">
   <defs>
-    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="bgGrad-${uid}" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${bg}" />
       <stop offset="100%" stop-color="${shadeColor(bg, -6)}" />
     </linearGradient>
+    <linearGradient id="iconGrad-${uid}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="${shadeColor(accent, 18)}" />
+      <stop offset="100%" stop-color="${shadeColor(accent, -22)}" />
+    </linearGradient>
+    <radialGradient id="glow-${uid}" cx="30%" cy="22%" r="75%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="shadow-${uid}" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="${shadeColor(accent, -40)}" flood-opacity="0.35" />
+    </filter>
   </defs>
-  <rect width="400" height="400" rx="24" fill="url(#bgGrad)" />
-  ${iconMarkup}
+  <rect width="400" height="400" rx="24" fill="url(#bgGrad-${uid})" />
+  <rect width="400" height="400" rx="24" fill="url(#glow-${uid})" />
+  <g filter="url(#shadow-${uid})">${iconMarkup}</g>
   ${badgeMarkup}
   <text x="200" y="370" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="600" fill="${accent}" text-anchor="middle">${name}</text>
   <text x="200" y="392" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="${accent}" opacity="0.7" text-anchor="middle">${sku}</text>
